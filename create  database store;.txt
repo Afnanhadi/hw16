@@ -1,0 +1,70 @@
+create  database store;
+
+create table countries(
+    code  int primary key,
+    name varchar(20) unique,
+    continent_name varchar(20) not null
+);
+
+create  table users(
+    id int primary key ,
+    full_name varchar(20) ,
+    email varchar(19) unique ,
+    gender char(1) check ( gender='F'or gender='M' ),
+    date_of_birth varchar(15),
+    created_at datetime,
+    country_code int,
+   foreign key (country_code) references countries(code)
+);
+
+create table  orders(
+    id int primary key ,
+    user_id int,
+    foreign key (user_id) references  users(id),
+    status varchar(6) check ( status='start'or status= 'finish' ),
+     crated_at datetime
+);
+
+create  table  order_products(
+    order_id int,
+    product_id int ,
+    PRIMARY KEY (order_id,product_id),
+ foreign key (order_id) references  orders(id),
+    foreign key (product_id )references products(id),
+    quantity int default 0
+ );
+
+create  table products(
+    id int primary key ,
+    name varchar(10) not null ,
+    price int default 0,
+    status varchar(10)check ( status='valid'or 'expired' )
+);
+
+drop  database store;
+drop table countries;
+drop table users;
+drop table orders;
+drop table order_products;
+drop  table products;
+
+
+select * from countries;
+select * from products;
+select * from users;
+select * from order_products;
+select * from orders;
+
+insert  into countries values (123,'afnan hadi','gdd');
+
+insert into  users values (123,'afnan hadi','afnanhadi@gmail.com','F','18/8/2001',NOW(),123);
+
+insert into orders values (123,123,'start',NOW());
+
+insert into order_products values (12345,234,888);
+
+insert into products values (123,123,12,'expired');
+
+update countries set name='amjad' where code=123;
+
+delete from products where id=123;
